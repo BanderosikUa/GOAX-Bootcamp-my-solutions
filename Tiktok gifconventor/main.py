@@ -15,7 +15,15 @@ def download_video(url: str) -> Path:
 
 
 def _rename_file_to_gif(filename: str) -> str:
+    """Rename mp4 to gif or ,if file exists, create new name"""
     name = filename.split(".")[0]
+    list_of_gifs = list(BASE_DIR.glob("*.gif"))
+    if len(list_of_gifs) > 1:
+        split_file_num = list_of_gifs[-1].name.split("-")
+        previous_num = int(split_file_num[1].split('.')[0])
+        name = split_file_num[0] + f"-{previous_num + 1}"
+    elif len(list_of_gifs) == 1:
+        name = name + '-1'
     return name + ".gif"
 
 
